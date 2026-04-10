@@ -12,4 +12,5 @@ func NewRouter() *gin.Engine {
 
 func registerRoutes(router *gin.Engine) {
 	router.GET("/health", Health)
+	router.GET("/summary", Summary)
 }
