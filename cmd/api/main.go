@@ -2,18 +2,15 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/avaswani-build/fair-winds-api/internal/api"
 )
 
 func main() {
-	mux := http.NewServeMux()
-
-	api.RegisterRoutes(mux)
+	router := api.NewRouter()
 
 	log.Println("server running on :8080")
-	if err := http.ListenAndServe(":8080", mux); err != nil {
+	if err := router.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}
 }
