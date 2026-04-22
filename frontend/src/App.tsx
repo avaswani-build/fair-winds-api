@@ -39,6 +39,41 @@ function App() {
         <h1>Fair Winds</h1>
         <p className="subtitle">Check sailing conditions for a location.</p>
 
+        <button
+          onClick={() => {
+            if (!navigator.geolocation) {
+              setError("Geolocation not supported");
+              return;
+            }
+
+            setLoading(true);
+            navigator.geolocation.getCurrentPosition(
+              async (pos) => {
+                const latVal = pos.coords.latitude;
+                const lngVal = pos.coords.longitude;
+
+                setLat(latVal.toString());
+                setLong(lngVal.toString());
+
+                try {
+                  const summary = await getSummary(latVal, lngVal);
+                  setResult(summary);
+                } catch {
+                  setError("Failed to fetch summary");
+                } finally {
+                  setLoading(false);
+                }
+              },
+              () => {
+                setError("Unable to retrieve location");
+                setLoading(false);
+              }
+            );
+          }}
+        >
+          Use My Location
+        </button>
+
         <div className="input-group">
           <label htmlFor="lat">Latitude</label>
           <input
