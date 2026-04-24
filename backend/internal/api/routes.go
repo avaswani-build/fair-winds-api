@@ -18,4 +18,5 @@ func registerRoutes(router *gin.Engine, h *Handler) {
 	router.GET("/health", Health)
 	router.GET("/summary-mock", SummaryMock)
 	router.GET("/summary", h.Summary)
+	router.GET("/timeline", h.GetTimeline)
 }

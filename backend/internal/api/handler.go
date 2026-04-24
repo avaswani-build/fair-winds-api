@@ -116,3 +116,28 @@ func (h *Handler) Summary(c *gin.Context) {
 		Recommendation: recommendation,
 	})
 }
+
+func (h *Handler) GetTimeline(c *gin.Context) {
+	latStr := c.Query("lat")
+	lngStr := c.Query("lng")
+
+	lat, err := strconv.ParseFloat(latStr, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid lat"})
+		return
+	}
+
+	lng, err := strconv.ParseFloat(lngStr, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid lng"})
+		return
+	}
+
+	points, err := h.WeatherClient.GetTimeline(lat, lng)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, points)
+}

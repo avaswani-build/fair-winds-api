@@ -5,6 +5,7 @@ type StormglassResponse struct {
 }
 
 type Hour struct {
+	Time          string      `json:"time"`
 	WindSpeed     SourceValue `json:"windSpeed"`
 	Gust          SourceValue `json:"gust"`
 	WaveHeight    SourceValue `json:"waveHeight"`
