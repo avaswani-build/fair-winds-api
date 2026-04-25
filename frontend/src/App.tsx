@@ -1,12 +1,43 @@
 import { getSummary } from "./api/summary";
 import { useState } from 'react'
+import { fetchTimeline } from "./api/timeline";
+import type { TimelinePoint } from "./types/timeline";
 import type { SummaryResponse } from "./types/summary"
 import './App.css'
+
+function formatHour(time: string) {
+  return new Date(time).toLocaleTimeString([], {
+    hour: "numeric",
+    hour12: true,
+  });
+}
+
+function formatDay(time: string) {
+  return new Date(time).toLocaleDateString([], {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function levelLabel(level: string) {
+  switch (level) {
+    case "light":
+      return "Light";
+    case "medium":
+      return "Medium";
+    case "heavy":
+      return "Heavy";
+    default:
+      return level;
+  }
+}
 
 function App() {
   const [lat, setLat] = useState("");
   const [long, setLong] = useState("");
   const [result, setResult] = useState<SummaryResponse | null>(null);
+  const [timeline, setTimeline] = useState<TimelinePoint[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,8 +55,13 @@ function App() {
 
     try {
       setLoading(true);
-      const summary = await getSummary(latNum, longNum);
+      const [summary, timelineData] = await Promise.all([
+        getSummary(latNum, longNum),
+        fetchTimeline(latNum, longNum),
+      ]);
+
       setResult(summary);
+      setTimeline(timelineData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -56,8 +92,13 @@ function App() {
                 setLong(lngVal.toString());
 
                 try {
-                  const summary = await getSummary(latVal, lngVal);
+                  const [summary, timelineData] = await Promise.all([
+                    getSummary(latVal, lngVal),
+                    fetchTimeline(latVal, lngVal),
+                  ]);
+
                   setResult(summary);
+                  setTimeline(timelineData);
                 } catch (err) {
                   console.error("Fetch error:", err);
                   setError("Failed to fetch summary");
@@ -126,6 +167,32 @@ function App() {
               <strong>Reason:</strong> {result.recommendation.reason}
             </p>
           </div>
+        )}
+
+        {timeline.length > 0 && (
+          <section className="timeline-card">
+            <div className="timeline-header">
+              <div>
+                <p className="eyebrow">Wind outlook</p>
+                <h2>Next sailing window</h2>
+              </div>
+              <span className="timeline-count">{timeline.length} hrs</span>
+            </div>
+
+            <div className="timeline-strip">
+              {timeline.slice(0, 24).map((point) => (
+                <div className="timeline-point" key={point.time}>
+                  <div className={`wind-dot ${point.level}`} />
+                  <span className="timeline-hour">{formatHour(point.time)}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="timeline-summary">
+              <span>Now: {levelLabel(timeline[0].level)} wind</span>
+              <span>{formatDay(timeline[0].time)}</span>
+            </div>
+          </section>
         )}
       </div>
     </div>

@@ -98,3 +98,94 @@ button:hover {
 
   background: rgba(255, 255, 255, 0.08);
 }
+
+.timeline-card {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+}
+
+.timeline-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.timeline-header h2 {
+  margin: 0;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.eyebrow {
+  margin: 0 0 0.25rem;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.timeline-count {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.8rem;
+}
+
+.timeline-strip {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 0.25rem 0 0.75rem;
+}
+
+.timeline-point {
+  min-width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.wind-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.28);
+}
+
+.wind-dot.light {
+  background: rgba(170, 210, 255, 0.55);
+}
+
+.wind-dot.medium {
+  background: rgba(120, 210, 190, 0.85);
+}
+
+.wind-dot.heavy {
+  background: rgba(255, 170, 120, 0.9);
+}
+
+.timeline-hour {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.timeline-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.85rem;
+}
