@@ -6,14 +6,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/summary": {
+      "/api": {
         target: "http://localhost:8080",
         changeOrigin: true,
       },
-      "/timeline": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-      }
     },
   },
 })

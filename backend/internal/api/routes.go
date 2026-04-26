@@ -15,8 +15,9 @@ func NewRouter(client weather.Client) *gin.Engine {
 }
 
 func registerRoutes(router *gin.Engine, h *Handler) {
-	router.GET("/health", Health)
-	router.GET("/summary-mock", SummaryMock)
-	router.GET("/summary", h.Summary)
-	router.GET("/timeline", h.GetTimeline)
+	api := router.Group("/api")
+	api.GET("/health", Health)
+	api.GET("/summary-mock", SummaryMock)
+	api.GET("/summary", h.Summary)
+	api.GET("/timeline", h.GetTimeline)
 }

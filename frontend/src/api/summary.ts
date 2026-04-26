@@ -5,7 +5,7 @@ export async function getSummary(
   long: number,
 ): Promise<SummaryResponse> {
   const response = await fetch(
-    `/summary?lat=${encodeURIComponent(lat)}&lng=${encodeURIComponent(long)}`,
+    `/api/summary?lat=${encodeURIComponent(lat)}&lng=${encodeURIComponent(long)}`,
   );
 
   if (!response.ok) {

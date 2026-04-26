@@ -4,7 +4,7 @@ export async function fetchTimeline(
   lat: number,
   lng: number
 ): Promise<TimelinePoint[]> {
-  const res = await fetch(`/timeline?lat=${lat}&lng=${lng}`);
+  const res = await fetch(`/api/timeline?lat=${lat}&lng=${lng}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch wind timeline");
