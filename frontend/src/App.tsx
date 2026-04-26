@@ -1,8 +1,6 @@
-import { getSummary } from "./api/summary";
 import { useState } from 'react'
 import { fetchTimeline } from "./api/timeline";
 import type { TimelinePoint } from "./types/timeline";
-import type { SummaryResponse } from "./types/summary"
 import './App.css'
 
 function formatHour(time: string) {
@@ -36,14 +34,13 @@ function levelLabel(level: string) {
 function App() {
   const [lat, setLat] = useState("");
   const [long, setLong] = useState("");
-  const [result, setResult] = useState<SummaryResponse | null>(null);
   const [timeline, setTimeline] = useState<TimelinePoint[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = async () => {
     setError("");
-    setResult(null);
+    
 
     const latNum = parseFloat(lat);
     const longNum = parseFloat(long);
@@ -55,12 +52,8 @@ function App() {
 
     try {
       setLoading(true);
-      const [summary, timelineData] = await Promise.all([
-        getSummary(latNum, longNum),
-        fetchTimeline(latNum, longNum),
-      ]);
+      const timelineData = await fetchTimeline(latNum, longNum);
 
-      setResult(summary);
       setTimeline(timelineData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -92,12 +85,8 @@ function App() {
                 setLong(lngVal.toString());
 
                 try {
-                  const [summary, timelineData] = await Promise.all([
-                    getSummary(latVal, lngVal),
-                    fetchTimeline(latVal, lngVal),
-                  ]);
+                  const timelineData = await fetchTimeline(latVal, lngVal);
 
-                  setResult(summary);
                   setTimeline(timelineData);
                 } catch (err) {
                   console.error("Fetch error:", err);
@@ -145,7 +134,7 @@ function App() {
 
         {error && <p className="error">{error}</p>}
 
-        {result && (
+        {/* {result && (
           <div className="result">
             <h2>Conditions Summary</h2>
             <p>
@@ -167,7 +156,7 @@ function App() {
               <strong>Reason:</strong> {result.recommendation.reason}
             </p>
           </div>
-        )}
+        )} */}
 
         {timeline.length > 0 && (
           <section className="timeline-card">
