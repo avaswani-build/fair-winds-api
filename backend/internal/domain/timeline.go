@@ -9,6 +9,8 @@ const (
 )
 
 type TimelinePoint struct {
-	Time  string    `json:"time"`
-	Level WindLevel `json:"level"`
+	Time      string    `json:"time"`
+	WindSpeed float64   `json:"windSpeed"`
+	Gust      float64   `json:"gustSpeed"`
+	Level     WindLevel `json:"level"`
 }

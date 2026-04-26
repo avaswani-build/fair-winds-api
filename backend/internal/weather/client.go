@@ -141,8 +141,10 @@ func (c *StormglassClient) GetTimeline(lat, lng float64) ([]domain.TimelinePoint
 
 	for _, hour := range sgResp.Hours {
 		points = append(points, domain.TimelinePoint{
-			Time:  hour.Time,
-			Level: classifyWind(hour.WindSpeed.SG),
+			Time:      hour.Time,
+			WindSpeed: hour.WindSpeed.SG,
+			Gust:      hour.Gust.SG,
+			Level:     classifyWind(hour.WindSpeed.SG),
 		})
 	}
 
